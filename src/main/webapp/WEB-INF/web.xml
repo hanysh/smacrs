@@ -22,6 +22,11 @@
   <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 </listener>
       
+<listener> 
+  <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class> 
+</listener>
+            
+      
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

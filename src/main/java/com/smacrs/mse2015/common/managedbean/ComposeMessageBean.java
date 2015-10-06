@@ -5,10 +5,13 @@
  */
 package com.smacrs.mse2015.common.managedbean;
 
+import com.smacrs.mse2015.common.entity.LutUserType;
 //import com.smacrs.mse2015.common.entity.User;
 import com.smacrs.mse2015.common.service.UserService;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
 
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
@@ -20,10 +23,10 @@ import org.springframework.stereotype.Controller;
  *
  * @author alaa_ayoub
  */
-@Named(value = "testBean")
+@Named(value = "composeMessageBean")
 //@Controller
 @Dependent
-public class TestBean implements Serializable {
+public class ComposeMessageBean implements Serializable {
 
     /**
      * Creates a new instance of TestBean
@@ -31,12 +34,34 @@ public class TestBean implements Serializable {
     
     String name ;
     String pass;
+    int userTypeId;
+
+    public int getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(int userTypeId) {
+        this.userTypeId = userTypeId;
+    }
+    List<LutUserType> userTypes;
+
+    public List<LutUserType> getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(List<LutUserType> userTypes) {
+        this.userTypes = userTypes;
+    }
     
     @Autowired
     private UserService userService;
-    public TestBean() {
+    public ComposeMessageBean() {
     }
 
+    @PostConstruct
+    public void init(){
+        userTypes=userService.getAllType();
+    }
 
     public String getPass() {
         return pass;

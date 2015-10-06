@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
- http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
- 
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence   http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="GuestbookPU" transaction-type="RESOURCE_LOCAL">
-<!--     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+    <!--     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.smacrs.mse2015.common.entity.InstDepartment</class>
+    <class>com.smacrs.mse2015.common.entity.InstUndergradeCourse</class>
+    <class>com.smacrs.mse2015.common.entity.LutStaffMemberDegree</class>
+    <class>com.smacrs.mse2015.common.entity.CommonMessageThread</class>
+    <class>com.smacrs.mse2015.common.entity.InstAcademicYear</class>
+    <class>com.smacrs.mse2015.common.entity.LutUserType</class>
+    <class>com.smacrs.mse2015.common.entity.InstPostgradeDiscipline</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearUndergradeCourseDetails</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearUndergradeCourseAssignation</class>
+    <class>com.smacrs.mse2015.common.entity.StaffMemberDiscipline</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearGroup</class>
+    <class>com.smacrs.mse2015.common.entity.StaffMember</class>
+    <class>com.smacrs.mse2015.common.entity.CommonMessageRecipient</class>
+    <class>com.smacrs.mse2015.common.entity.Institution</class>
+    <class>com.smacrs.mse2015.common.entity.UgStudent</class>
+    <class>com.smacrs.mse2015.common.entity.PgSupervisorDiscipline</class>
+    <class>com.smacrs.mse2015.common.entity.CommonMessage</class>
+    <class>com.smacrs.mse2015.common.entity.PgSupervisor</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearSection</class>
+    <class>com.smacrs.mse2015.common.entity.InstDepartmentYear</class>
+    <class>com.smacrs.mse2015.common.entity.LutMessageStatus</class>
+    <class>com.smacrs.mse2015.common.entity.LutStaffMemberType</class>
+    <class>com.smacrs.mse2015.common.entity.PgStudentDiscipline</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearPostgradeCourseAssignation</class>
+    <class>com.smacrs.mse2015.common.entity.CommonUserLogin</class>
+    <class>com.smacrs.mse2015.common.entity.InstUndergradeDiscipline</class>
+    <class>com.smacrs.mse2015.common.entity.PgStudent</class>
+    <class>com.smacrs.mse2015.common.entity.Employee</class>
+    <class>com.smacrs.mse2015.common.entity.AcyearPostgradeCourseDetails</class>
+    <class>com.smacrs.mse2015.common.entity.InstPostgradeCourse</class>
+    <class>com.smacrs.mse2015.common.entity.LutPgStudyType</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-<!--       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/activedb"/> -->
-<!--       <property name="javax.persistence.jdbc.user" value="root"/> -->
-<!--       <property name="javax.persistence.jdbc.password" value="root"/> -->
+      <!--       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/activedb"/> -->
+      <!--       <property name="javax.persistence.jdbc.user" value="root"/> -->
+      <!--       <property name="javax.persistence.jdbc.password" value="root"/> -->
     </properties>
   </persistence-unit>
- 
 </persistence>
