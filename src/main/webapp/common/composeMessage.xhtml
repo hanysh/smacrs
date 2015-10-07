@@ -24,18 +24,21 @@ and open the template in the editor.
 
         <h:form>
             <p:panelGrid columns="2" >
-                <p:outputLabel value="User Name" />
-                <p:inputText value="#{composeMessageBean.name}"></p:inputText>
-                <p:outputLabel value="Password" />
-                <p:inputText value="#{composeMessageBean.pass}"></p:inputText>
-                
+                <p:outputLabel value="type" />
                 <h:selectOneMenu value="#{composeMessageBean.userTypeId}" style="width:100%">
                     <f:selectItems value="#{composeMessageBean.userTypes}" var="user" itemLabel="#{user.name}" itemValue="#{user.id}" />
-                   </h:selectOneMenu>
-                
+                   </h:selectOneMenu> 
+                   <p:outputLabel value="To"/>
+                   <p:inputText value="#{composeMessageBean.to}"/>
+                <p:outputLabel value="Subject"/>
+                <p:inputText value="#{composeMessageBean.subject}"/>
+                <p:outputLabel value="text"/>
+                <p:inputTextarea value="#{composeMessageBean.text}" cols="100" rows="20" />
+                <p:outputLabel value="upload"/>
+                <p:fileUpload/>
                 <f:facet name="footer">
                     <div align="center" >
-                   
+                        <p:commandButton value="submit" ajax="false" action="#{composeMessageBean.go()}"/>
                 </div>
                 </f:facet>
             </p:panelGrid>    
