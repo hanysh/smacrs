@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.smacrs.mse2015.common.dao.UserDao;
 import com.smacrs.mse2015.common.entity.CommonMessage;
 import com.smacrs.mse2015.common.entity.LutUserType;
+import java.math.BigInteger;
 //import com.smacrs.mse2015.common.entity.User;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,12 @@ private EntityManager em;
         return true;
     }
 
-    public long getUserId(String code ,String table ) {
-        javax.persistence.Query query=em.createNamedQuery("Select o from "+table+" o where o.code "+code);
-         query.getResultList();
-        return 0;
+    public int getUserId(String code ,String table ) {
+        javax.persistence.Query query=em.createNativeQuery("Select user_id from "+table+" o where o.code ="+code);
+         Integer userId= (Integer) query.getSingleResult();
+        System.out.println("userid  :::  "+userId);
+//        Integer grandChildCount = ((BigInteger) count).intValue();
+        return userId;
     }
     
     public List<CommonMessage> findMessage(Map<String,Object> filter,int from,int to){
@@ -68,5 +71,21 @@ private EntityManager em;
 //        query.setMaxResults(rows);
 //        List list = query.getResultList();
         return messages;
+    }
+
+    public int getMessageCount(Map<String, Object> filter) {
+       String q="Select o from CommonMessage o ";
+        javax.persistence.Query query=em.createNativeQuery("SELECT count(*) FROM common_message c ");
+
+        BigInteger count=(BigInteger) query.getSingleResult();
+        System.out.println("ccccccccccc  :::  "+count);
+        if(filter != null && filter.size() > 0){
+//            q+=" Where ";
+//            for(Map.Entry<String, String> entry:filter.entrySet()){
+//                q +=entry.getKey()+"="
+//            }
+        }
+        Integer grandChildCount = ((BigInteger) count).intValue();
+        return grandChildCount;
     }
 }

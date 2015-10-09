@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Sent</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    </h:head>
+    <h:body >
+
+        <h:form>
+            <p:dataTable id="cand" value="#{messageBean.commonMessagelazy}" var="msg"  style="width: 90%;margin-bottom:20px" 
+                         emptyMessage="No Candidate found with given criteria" filteredValue="#{messageBean.commonMessageFiltered}" lazy="true" rows="5"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         paginator="true"  rowsPerPageTemplate="5,10,15"  >
+
+
+                <p:column headerText="sender">
+                    <p:outputLabel value="#{msg.senderUserId.userName}" />
+                </p:column>
+                <p:column headerText="Type">
+                    <p:outputLabel value="#{msg.senderUserId.userTypeId.name}" />
+                </p:column>
+                <p:column headerText="subject">
+                    <p:outputLabel value="#{msg.subject}" />
+                </p:column>
+                <p:column headerText="date">
+                    <p:outputLabel value="#{msg.sentDate}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+    </h:body>
+</html>

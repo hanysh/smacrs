@@ -20,17 +20,17 @@ public class Util {
     @Autowired
     UserService userService;
     
-    public long getUserId(String codde,int type){
+    public  int getUserId(String code,int type){
        String table="";
        if(type == 1)
-           table="PgStudent";
+           table="pg_student";
        else if(type == 2)
-           table="PgSupervisor";
+           table="pg_supervisor";
        else if (type == 3)
            table="PgSupervisor";
        else if(type == 4)
            table="Employee";
-       return userService.getUserId(codde, table);
+       return userService.getUserId(code, table);
     }
     
 }

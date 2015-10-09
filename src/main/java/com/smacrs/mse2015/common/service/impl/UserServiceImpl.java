@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.smacrs.mse2015.common.dao.UserDao;
 import com.smacrs.mse2015.common.entity.CommonMessage;
+import com.smacrs.mse2015.common.entity.CommonMessageRecipient;
 import com.smacrs.mse2015.common.entity.CommonMessageThread;
+import com.smacrs.mse2015.common.entity.CommonUserLogin;
 import com.smacrs.mse2015.common.entity.LutUserType;
 //import com.smacrs.mse2015.common.entity.User;
 import com.smacrs.mse2015.common.service.UserService;
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public boolean insertMessage(CommonMessage message) {
+    public boolean insertMessage(CommonMessage message,int recp) {
         CommonMessageThread messageThread=new CommonMessageThread();
         messageThread.setOriginatorUserId(message.getSenderUserId());
         messageThread.setInstId(message.getInstId());
@@ -38,14 +40,24 @@ public class UserServiceImpl implements UserService {
         messageThread.setLastReplyDate(new Date());
         userDao.insertObject(messageThread);
         message.setMessageThreadId(messageThread);
-        return  userDao.insertObject(message);
+        userDao.insertObject(message);
+        CommonMessageRecipient messageRecipient=new CommonMessageRecipient();
+        messageRecipient.setMessageId(message);
+        messageRecipient.setRecipientUserId(new CommonUserLogin(recp));
+        messageRecipient.setInstId(message.getInstId());
+        userDao.insertObject(messageRecipient);
+        return true;
     }
     
-    public long getUserId(String code ,String table ){
+    public int getUserId(String code ,String table ){
        return userDao.getUserId(code, table);
     }
     
     public List<CommonMessage> findMessage(Map<String,Object> filter,int from,int to){
         return userDao.findMessage(filter, from, to);
+    }
+    
+    public int getMessageCount(Map<String, Object> filter) {
+        return userDao.getMessageCount(filter);
     }
 }

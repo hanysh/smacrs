@@ -23,10 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author alaa_ayoub
  */
-@Named(value = "messageBean")
-//@Controller
+@Named(value = "sentMessageBean")
 @Dependent
-public class MessageBean implements Serializable {
+public class SentMessageBean implements Serializable {
 
     /**
      * Creates a new instance of TestBean
@@ -55,13 +54,12 @@ public class MessageBean implements Serializable {
     
     @Autowired
     private UserService userService;
-    public MessageBean() {
+    public SentMessageBean() {
     }
 
     @PostConstruct
     public void init(){
         count=userService.getMessageCount(null);
-        System.out.println("countttt   :::  "+count);
         
     }
 

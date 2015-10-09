@@ -62,43 +62,20 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
     }
 
     @Override
-    public List<CommonMessage> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) { List<CommonMessage> list = this.userService.findMessage(filters, first, pageSize);
-    List<CommonMessage> lista = this.userService.findMessage(filters, first, pageSize);       
-    this.count = this.userService.findMessage(filters, first, pageSize).size();
+    public List<CommonMessage> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) { 
+        List<CommonMessage> list = this.userService.findMessage(filters, first, pageSize);     
+        this.count = this.userService.getMessageCount(filters);
             LazyloadMessage.filters = filters;
         this.count = this.allcount;
-        return lista;
+        return list;
     }
-    
-
-    
-//    public List<CommonMessage> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
-//    return null;
-//}
-
-//    @Override
-//    public List<CommonMessage> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String,String> filters) {
-//    throw new UnsupportedOperationException("Lazy loading is not implemented.");
-//}
-    
-//     public List<CommonMessage> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-//        if (filters != null && filters.size() > 0) {
-//            List list = this.candidateRegisteration.findCandidate(filters, first, pageSize);
-//            this.count = this.candidateRegisteration.findCandidate(filters);
-//            LazyCandidatedata.filters = filters;
-//            return list;
-//        }
-//        LazyCandidatedata.filters = filters;
-//        this.count = this.allcount;
-//        return this.candidateRegisteration.findAllCandidate(first, pageSize);
-//    }
 
     @Override
     public List<CommonMessage> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-       List<CommonMessage> lista = this.userService.findMessage(filters, first, pageSize);       
-    this.count = this.userService.findMessage(filters, first, pageSize).size();
-            LazyloadMessage.filters = filters;
+       List<CommonMessage> list = this.userService.findMessage(filters, first, pageSize);       
+       this.count = this.userService.getMessageCount(filters);
+        LazyloadMessage.filters = filters;
         this.count = this.allcount;
-        return lista;
+        return list;
     }
 }

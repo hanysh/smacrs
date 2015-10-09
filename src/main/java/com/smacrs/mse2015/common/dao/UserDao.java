@@ -14,7 +14,9 @@ public interface UserDao {
         
         public boolean insertObject(Object o);
         
-        public long getUserId(String code,String table);
+        public int getUserId(String code,String table);
         
         public List<CommonMessage> findMessage(Map<String,Object> filter,int from,int to);
+        
+        public int getMessageCount(Map<String,Object> filter);
 }

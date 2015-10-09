@@ -13,6 +13,7 @@ import com.smacrs.mse2015.common.entity.Institution;
 import com.smacrs.mse2015.common.entity.LutUserType;
 //import com.smacrs.mse2015.common.entity.User;
 import com.smacrs.mse2015.common.service.UserService;
+import com.smacrs.mse2015.common.util.Util;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -63,6 +64,8 @@ public class ComposeMessageBean implements Serializable {
     
     @Autowired
     private UserService userService;
+    @Autowired
+    private Util util;
     public ComposeMessageBean() {
     }
 
@@ -108,26 +111,15 @@ public class ComposeMessageBean implements Serializable {
 
     public String go() {
         String go="";
-//        User user = new User();
-//        user.setUserName(name);
-//        user.setPassword(pass);
-//        User loginUser = userService.getUser(user);
-//        System.out.println("user   ::: " + loginUser.getId());
-//        if (loginUser != null) {
-//            go="go";
-//        }
-        
         CommonMessage message=new CommonMessage();
-//        message.setId("1");
         message.setInstId(new Institution(1));
         message.setBody(text);
         message.setSubject(subject);
         message.setAttachements("SFsdf");
-//        message.setMessageThreadId(new CommonMessageThread(1));
         message.setSenderUserId(new CommonUserLogin(1));
         message.setSentDate(new Date());
-//        message.setCommonMessageRecipientList(new AbstractList<CommonMessageRecipient>);
-        userService.insertMessage(message);
+        int recp=util.getUserId(to, userTypeId);
+        userService.insertMessage(message,recp);
         
         return go;
     }
