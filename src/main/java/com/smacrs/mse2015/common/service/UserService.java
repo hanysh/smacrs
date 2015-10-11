@@ -14,7 +14,9 @@ public interface UserService {
          
         public int getUserId(String code ,String table );
         
-        public List<CommonMessage> findMessage(Map<String,Object> filter,int from,int to);
+        public List<CommonMessage> findMessage(String type, int userId, Map<String, Object> filter, int from, int to);
         
-        public int getMessageCount(Map<String, Object> filter) ;
+//        public int getMessageCount(Map<String, Object> filter) ;
+        
+        public int getMessageCount(String type, int userId, Map<String, Object> filter) ;
 }

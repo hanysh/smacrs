@@ -8,13 +8,19 @@ package com.smacrs.mse2015.common.managedbean;
 import com.smacrs.mse2015.common.entity.CommonMessage;
 import com.smacrs.mse2015.common.managedbean.model.LazyloadMessage;
 import com.smacrs.mse2015.common.service.UserService;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author alaa_ayoub
  */
 @Named(value = "messageBean")
-//@Controller
-@Dependent
+@ViewScoped
 public class MessageBean implements Serializable {
 
     /**
@@ -34,6 +39,15 @@ public class MessageBean implements Serializable {
  
     
     List<CommonMessage> messgelist;
+    CommonMessage selectedMessage;
+
+    public CommonMessage getSelectedMessage() {
+        return selectedMessage;
+    }
+
+    public void setSelectedMessage(CommonMessage selectedMessage) {
+        this.selectedMessage = selectedMessage;
+    }
     int count;
 
 
@@ -60,8 +74,7 @@ public class MessageBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        count=userService.getMessageCount(null);
-        System.out.println("countttt   :::  "+count);
+        count=userService.getMessageCount("inbox", 1, null);
         
     }
 
@@ -84,7 +97,7 @@ public class MessageBean implements Serializable {
 
     public LazyDataModel<CommonMessage> getCommonMessagelazy() {
         if (this.commonMessagelazy == null) {
-            this.commonMessagelazy = new LazyloadMessage(this.userService, this.count);
+            this.commonMessagelazy = new LazyloadMessage(userService, "inbox", 1, count);
         }
         return this.commonMessagelazy;
     }
@@ -92,4 +105,16 @@ public class MessageBean implements Serializable {
         this.commonMessagelazy = commonMessagelazy;
     }
     
+     public void onRowSelectNavigate(SelectEvent event) {
+        try {
+            //        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedMessage", event.getObject());
+//
+//        return "viewMessage.xhtml?faces-redirect=true";
+            System.out.println("ssss   "+selectedMessage);
+            System.out.println("eeeeee   "+((CommonMessage) event.getObject()));
+            FacesContext.getCurrentInstance().getExternalContext().redirect("viewMessage.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(MessageBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

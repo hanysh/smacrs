@@ -59,7 +59,7 @@ public class SentMessageBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        count=userService.getMessageCount(null);
+        count=userService.getMessageCount("sent", 1, null);
         
     }
 
@@ -82,7 +82,7 @@ public class SentMessageBean implements Serializable {
 
     public LazyDataModel<CommonMessage> getCommonMessagelazy() {
         if (this.commonMessagelazy == null) {
-            this.commonMessagelazy = new LazyloadMessage(this.userService, this.count);
+            this.commonMessagelazy = new LazyloadMessage(userService, "sent", 1, count);
         }
         return this.commonMessagelazy;
     }

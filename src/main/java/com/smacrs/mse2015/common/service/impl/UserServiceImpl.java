@@ -17,23 +17,22 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service("userService")
 public class UserServiceImpl implements UserService {
-	@Autowired
-	private UserDao userDao;
- 
+
+    @Autowired
+    private UserDao userDao;
+
 //	public User getUser(User user) {
 //		return userDao.getUser(user);
 //	}
-
     public List<LutUserType> getAllType() {
         return userDao.getAllType();
     }
 
     @Transactional
-    public boolean insertMessage(CommonMessage message,int recp) {
-        CommonMessageThread messageThread=new CommonMessageThread();
+    public boolean insertMessage(CommonMessage message, int recp) {
+        CommonMessageThread messageThread = new CommonMessageThread();
         messageThread.setOriginatorUserId(message.getSenderUserId());
         messageThread.setInstId(message.getInstId());
         messageThread.setStartDate(new Date());
@@ -41,23 +40,32 @@ public class UserServiceImpl implements UserService {
         userDao.insertObject(messageThread);
         message.setMessageThreadId(messageThread);
         userDao.insertObject(message);
-        CommonMessageRecipient messageRecipient=new CommonMessageRecipient();
+        CommonMessageRecipient messageRecipient = new CommonMessageRecipient();
         messageRecipient.setMessageId(message);
         messageRecipient.setRecipientUserId(new CommonUserLogin(recp));
         messageRecipient.setInstId(message.getInstId());
         userDao.insertObject(messageRecipient);
         return true;
     }
-    
-    public int getUserId(String code ,String table ){
-       return userDao.getUserId(code, table);
+
+    public int getUserId(String code, String table) {
+        return userDao.getUserId(code, table);
     }
-    
-    public List<CommonMessage> findMessage(Map<String,Object> filter,int from,int to){
-        return userDao.findMessage(filter, from, to);
+
+    public List<CommonMessage> findMessage(String type, int userId, Map<String, Object> filter, int from, int to) {
+        if (type != null && type.equalsIgnoreCase("inbox")) {
+            return userDao.findinboxMessage(userId, filter, from, to);
+        } else if (type != null && type.equalsIgnoreCase("sent")) {
+            return userDao.findSentMessage(userId, filter, from, to);
+        }
+        return null;
     }
-    
+
     public int getMessageCount(Map<String, Object> filter) {
         return userDao.getMessageCount(filter);
+    }
+
+    public int getMessageCount(String type, int userId, Map<String, Object> filter) {
+        return userDao.getMessageCount(type, userId, filter);
     }
 }

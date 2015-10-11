@@ -23,7 +23,7 @@ and open the template in the editor.
     <h:body >
 
         <h:form>
-            <p:dataTable id="cand" value="#{messageBean.commonMessagelazy}" var="msg"  style="width: 90%;margin-bottom:20px" 
+            <p:dataTable id="cand" value="#{sentMessageBean.commonMessagelazy}" var="msg"  style="width: 90%;margin-bottom:20px" 
                          emptyMessage="No Candidate found with given criteria" filteredValue="#{messageBean.commonMessageFiltered}" lazy="true" rows="5"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          paginator="true"  rowsPerPageTemplate="5,10,15"  >
