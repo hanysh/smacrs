@@ -27,7 +27,7 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
     String type;
     int userId;
     CommonMessage selectedMessage ;
-
+   
     public Map<String, Object> getFilters() {
         return filters;
     }
@@ -36,12 +36,20 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
         LazyloadMessage.filters = filters;
     }
 
-    public LazyloadMessage(UserService userService,String type,int userId,int count) {
+//    public LazyloadMessage(UserService userService,String type,int userId,int count) {
+//        this.userService = userService;
+//        this.count = count;
+//        this.allcount = count;
+//        this.type=type;
+//        this.userId=userId;
+//    }
+    public LazyloadMessage(UserService userService,String type,int userId,int count,Map<String,Object> filters) {
         this.userService = userService;
         this.count = count;
         this.allcount = count;
         this.type=type;
         this.userId=userId;
+        LazyloadMessage.filters=filters;
     }
 
     @Override
@@ -52,7 +60,7 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
     @Override
     public CommonMessage getRowData(String rowKey) {
         for(CommonMessage commonMessage : list) {
-            if(commonMessage.getId().equals(rowKey))
+            if(commonMessage.getId()==Integer.parseInt(rowKey))
                 return commonMessage;
         }
         return null;
@@ -73,8 +81,8 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
     @Override
     public List<CommonMessage> load(int first, int pageSize, List<SortMeta> multiSortMeta, Map<String, Object> filters) { 
         
-         list = this.userService.findMessage(type, userId, filters, first, count);
-        this.count = this.userService.getMessageCount(type, userId, filters);
+         list = this.userService.findMessage(type, userId, LazyloadMessage.filters , first, pageSize);
+        this.count = this.userService.getMessageCount(type, userId, LazyloadMessage.filters );
         LazyloadMessage.filters = filters;
         this.count = this.allcount;
         return list;
@@ -83,8 +91,8 @@ public class LazyloadMessage extends LazyDataModel<CommonMessage>{
     @Override
     public List<CommonMessage> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
       
-         list = this.userService.findMessage(type, userId, filters, first, count);
-        this.count = this.userService.getMessageCount(type, userId, filters);
+         list = this.userService.findMessage(type, userId, LazyloadMessage.filters , first, pageSize);
+        this.count = this.userService.getMessageCount(type, userId, LazyloadMessage.filters );
         LazyloadMessage.filters = filters;
         this.count = this.allcount;
         return list;

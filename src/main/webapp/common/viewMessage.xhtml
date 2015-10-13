@@ -15,7 +15,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Compose Message</title>
+        <title>View Message</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 
@@ -24,26 +24,28 @@ and open the template in the editor.
         <ui:composition template="../template/commonLayout.xhtml">
 
             <ui:define name="content">
-                <h:form>
-                    <p:panelGrid columns="2" style="width:900px">
-                        <p:outputLabel value="type" />
-                        <h:selectOneMenu value="#{composeMessageBean.userTypeId}" style="width:100%">
-                            <f:selectItems value="#{composeMessageBean.userTypes}" var="user" itemLabel="#{user.name}" itemValue="#{user.id}" />
-                        </h:selectOneMenu> 
-                        <p:outputLabel value="To"/>
-                        <p:inputText value="#{composeMessageBean.to}"/>
-                        <p:outputLabel value="Subject"/>
-                        <p:inputText value="#{composeMessageBean.subject}"/>
-                        <p:outputLabel value="text"/>
-                        <p:inputTextarea value="#{composeMessageBean.text}" cols="100" rows="20" />
-                        <p:outputLabel value="upload"/>
-                        <p:fileUpload/>
-                        <f:facet name="footer">
-                            <div align="center" >
-                                <p:commandButton value="submit" ajax="false" action="#{composeMessageBean.go()}"/>
-                            </div>
-                        </f:facet>
-                    </p:panelGrid>    
+                <h:form >
+                    <ui:repeat value="#{viewMessageBean.messages}" var="msg">
+                        <h:panelGrid columns="2" style="width: 900px">
+                            <p:outputLabel value="Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø±Ø³Ø§Ù„Ù‡"/>
+                            <p:outputLabel value="#{msg.subject}"/>
+                             <p:outputLabel value="Ø§Ø³Ù… Ø§Ù„Ø±Ø§Ø³Ù„"/>
+                             <p:outputLabel value="#{msg.senderUserId.userName}"/>
+
+                            <p:outputLabel value="Ù†Øµ Ø§Ù„Ø±Ø³Ø§Ù„Ù‡"/>
+                            <p:outputLabel value="#{msg.body}"/>
+                            
+                            <p:spacer height="100px"/>
+                            
+                        </h:panelGrid>
+                    </ui:repeat>
+
+                    <p:commandButton value="reply" action="#{viewMessageBean.go()}">
+                        <f:param name="messagereply" value="true" />
+                        <f:param name="messagesSubject" value="#{viewMessageBean.subject}" />
+                        <f:param name="messageThead" value="#{viewMessageBean.messageThreadId}" />
+                    </p:commandButton>
+
                 </h:form>
             </ui:define>
         </ui:composition>

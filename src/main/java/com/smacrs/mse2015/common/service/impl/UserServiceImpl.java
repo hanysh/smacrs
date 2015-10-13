@@ -31,14 +31,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public boolean insertMessage(CommonMessage message, int recp) {
-        CommonMessageThread messageThread = new CommonMessageThread();
-        messageThread.setOriginatorUserId(message.getSenderUserId());
-        messageThread.setInstId(message.getInstId());
-        messageThread.setStartDate(new Date());
-        messageThread.setLastReplyDate(new Date());
-        userDao.insertObject(messageThread);
-        message.setMessageThreadId(messageThread);
+    public boolean insertMessage(CommonMessage message, int recp, boolean reply) {
+        if (!reply) {
+            CommonMessageThread messageThread = new CommonMessageThread();
+            messageThread.setOriginatorUserId(message.getSenderUserId());
+            messageThread.setInstId(message.getInstId());
+            messageThread.setStartDate(new Date());
+            messageThread.setLastReplyDate(new Date());
+            userDao.insertObject(messageThread);
+            message.setMessageThreadId(messageThread);
+        }
+        message.setId(null);
         userDao.insertObject(message);
         CommonMessageRecipient messageRecipient = new CommonMessageRecipient();
         messageRecipient.setMessageId(message);
@@ -67,5 +70,9 @@ public class UserServiceImpl implements UserService {
 
     public int getMessageCount(String type, int userId, Map<String, Object> filter) {
         return userDao.getMessageCount(type, userId, filter);
+    }
+
+    public List<CommonMessage> getMessage(int threadId) {
+        return userDao.getMessage(threadId);
     }
 }

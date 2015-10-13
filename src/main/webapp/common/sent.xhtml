@@ -20,30 +20,34 @@ and open the template in the editor.
 
 
     </h:head>
-    <h:body >
+    <h:body>
+        <ui:composition template="../template/commonLayout.xhtml">
 
-        <h:form>
-            <p:dataTable id="cand" value="#{sentMessageBean.commonMessagelazy}" var="msg"  style="width: 90%;margin-bottom:20px" 
-                         emptyMessage="No Candidate found with given criteria" filteredValue="#{messageBean.commonMessageFiltered}" lazy="true" rows="5"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         paginator="true"  rowsPerPageTemplate="5,10,15"  >
+            <ui:define name="content">
+                <h:form >
+                    <p:dataTable id="cand" value="#{sentMessageBean.commonMessagelazy}" var="msg"  style="width: 90%;margin-bottom:20px" 
+                                 emptyMessage="No Candidate found with given criteria" filteredValue="#{messageBean.commonMessageFiltered}" lazy="true" rows="5"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 paginator="true"  rowsPerPageTemplate="5,10,15" 
+                                 selection="#{sentMessageBean.selectedMessage}" selectionMode="single">
+                        <p:ajax event="rowSelect" listener="#{sentMessageBean.onRowSelect}" /> 
 
+                        <p:column headerText="اسم الراسل">
+                            <p:outputLabel value="#{msg.senderUserId.userName}" />
+                        </p:column>
+                        <p:column headerText="نوع الراسل">
+                            <p:outputLabel value="#{msg.senderUserId.userTypeId.name}" />
+                        </p:column>
+                        <p:column headerText="عنوان الرساله">
+                            <p:outputLabel value="#{msg.subject}" />
+                        </p:column>
+                        <p:column headerText="التاريخ">
+                            <p:outputLabel value="#{msg.sentDate}" />
+                        </p:column>
 
-                <p:column headerText="sender">
-                    <p:outputLabel value="#{msg.senderUserId.userName}" />
-                </p:column>
-                <p:column headerText="Type">
-                    <p:outputLabel value="#{msg.senderUserId.userTypeId.name}" />
-                </p:column>
-                <p:column headerText="subject">
-                    <p:outputLabel value="#{msg.subject}" />
-                </p:column>
-                <p:column headerText="date">
-                    <p:outputLabel value="#{msg.sentDate}" />
-                </p:column>
-
-            </p:dataTable>
-        </h:form>
-
+                    </p:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

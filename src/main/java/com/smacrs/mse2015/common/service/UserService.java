@@ -10,7 +10,7 @@ public interface UserService {
 //	public User getUser(User user);
         public List<LutUserType> getAllType();
      
-        public boolean insertMessage(CommonMessage message,int recp);
+        public boolean insertMessage(CommonMessage message,int recp,boolean reply);
          
         public int getUserId(String code ,String table );
         
@@ -19,4 +19,6 @@ public interface UserService {
 //        public int getMessageCount(Map<String, Object> filter) ;
         
         public int getMessageCount(String type, int userId, Map<String, Object> filter) ;
+        
+        public List<CommonMessage> getMessage(int threadId);
 }

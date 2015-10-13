@@ -26,4 +26,6 @@ public interface UserDao {
     public List<CommonMessage> findinboxMessage(int recip, Map<String, Object> filter, int from, int to);
     
     public int getMessageCount(String type, int userId, Map<String, Object> filter) ;
+    
+    public List<CommonMessage> getMessage(int threadId);
 }

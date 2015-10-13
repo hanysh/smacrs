@@ -6,20 +6,26 @@
 package com.smacrs.mse2015.common.managedbean;
 
 import com.smacrs.mse2015.common.entity.CommonMessage;
+import com.smacrs.mse2015.common.entity.LutUserType;
 import com.smacrs.mse2015.common.managedbean.model.LazyloadMessage;
 import com.smacrs.mse2015.common.service.UserService;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 
@@ -40,7 +46,25 @@ public class MessageBean implements Serializable {
     
     List<CommonMessage> messgelist;
     CommonMessage selectedMessage;
+    List<LutUserType> userTypes;
+    int userTypeId;
 
+    public int getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(int userTypeId) {
+        this.userTypeId = userTypeId;
+    }
+
+    public List<LutUserType> getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(List<LutUserType> userTypes) {
+        this.userTypes = userTypes;
+    }
+    
     public CommonMessage getSelectedMessage() {
         return selectedMessage;
     }
@@ -74,6 +98,7 @@ public class MessageBean implements Serializable {
 
     @PostConstruct
     public void init(){
+        userTypes=userService.getAllType(); 
         count=userService.getMessageCount("inbox", 1, null);
         
     }
@@ -97,7 +122,7 @@ public class MessageBean implements Serializable {
 
     public LazyDataModel<CommonMessage> getCommonMessagelazy() {
         if (this.commonMessagelazy == null) {
-            this.commonMessagelazy = new LazyloadMessage(userService, "inbox", 1, count);
+            this.commonMessagelazy = new LazyloadMessage(userService, "inbox", 1, count,null);
         }
         return this.commonMessagelazy;
     }
@@ -105,16 +130,31 @@ public class MessageBean implements Serializable {
         this.commonMessagelazy = commonMessagelazy;
     }
     
-     public void onRowSelectNavigate(SelectEvent event) {
+     public void onRowSelect(SelectEvent event) {
         try {
             //        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedMessage", event.getObject());
 //
 //        return "viewMessage.xhtml?faces-redirect=true";
-            System.out.println("ssss   "+selectedMessage);
-            System.out.println("eeeeee   "+((CommonMessage) event.getObject()));
+//             FacesMessage msg = new FacesMessage("Car Selected", ((CommonMessage) event.getObject()).getSubject());
+//            System.out.println("ssss   "+selectedMessage);
+//            System.out.println("eeeeee   "+((CommonMessage) event.getObject()));
+            CommonMessage msg=(CommonMessage) event.getObject();
+          
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+            session.setAttribute("Threadid", msg.getMessageThreadId().getId());
             FacesContext.getCurrentInstance().getExternalContext().redirect("viewMessage.xhtml");
+        
         } catch (IOException ex) {
             Logger.getLogger(MessageBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+     
+     public void apply(){
+         Map<String,Object> filters=new HashMap<String,Object>();
+         if(userTypeId !=0){
+             filters.put("","");
+         }
+          this.commonMessagelazy = new LazyloadMessage(userService, "inbox", 1, count,null);
+     }
 }

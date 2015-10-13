@@ -25,24 +25,32 @@ and open the template in the editor.
 
             <ui:define name="content">
                 <h:form>
-                    <p:dataTable id="cand" value="#{messageBean.commonMessagelazy}" var="msg"  style="width: 900px;margin-bottom:20px" 
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="to"/>
+                        
+                        <h:selectOneMenu value="#{messageBean.userTypeId}" style="width:100%">
+                            <f:selectItems value="#{messageBean.userTypes}" var="user" itemLabel="#{user.name}" itemValue="#{user.id}" />
+                        </h:selectOneMenu>
+                       
+                    </h:panelGrid>
+                    <p:dataTable  id="cand" value="#{messageBean.commonMessagelazy}" var="msg" style="width: 90%;margin-bottom:20px" 
                                  emptyMessage="No Candidate found with given criteria" filteredValue="#{messageBean.commonMessageFiltered}" lazy="true" rows="5"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  paginator="true"  rowsPerPageTemplate="5,10,15" 
                                  selection="#{messageBean.selectedMessage}" selectionMode="single">
-                        <p:ajax event="rowSelect" listener="#{messageBean.onRowSelectNavigate}" /> 
+                        <p:ajax event="rowSelect" listener="#{messageBean.onRowSelect}" /> 
 
 
-                        <p:column headerText="sender">
+                        <p:column headerText="Ø§Ø³Ù… Ø§Ù„Ø±Ø§Ø³Ù„">
                             <p:outputLabel value="#{msg.senderUserId.userName}" />
                         </p:column>
-                        <p:column headerText="Type">
+                        <p:column headerText="Ù†ÙˆØ¹ Ø§Ù„Ø±Ø§Ø³Ù„">
                             <p:outputLabel value="#{msg.senderUserId.userTypeId.name}" />
                         </p:column>
-                        <p:column headerText="subject">
+                        <p:column headerText="Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø±Ø³Ø§Ù„Ù‡">
                             <p:outputLabel value="#{msg.subject}" />
                         </p:column>
-                        <p:column headerText="date">
+                        <p:column headerText="Ø§Ù„ØªØ§Ø±ÙŠØ®">
                             <p:outputLabel value="#{msg.sentDate}" />
                         </p:column>
 

@@ -14,4 +14,11 @@
             <to-view-id>/newxhtml.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/common/composeMessage.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inbox</from-outcome>
+            <to-view-id>/common/inbox.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

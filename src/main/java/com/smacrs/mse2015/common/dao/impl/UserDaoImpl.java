@@ -98,7 +98,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public List<CommonMessage> findinboxMessage(int recip, Map<String, Object> filter, int from, int to) {
-        String q = "SELECT * FROM common_message m inner join common_message_recipient mr on m.id=mr.message_id where mr.recipient_user_id=" + recip;
+        String q = "SELECT * FROM common_message m inner join common_message_recipient mr on m.id=mr.message_id where mr.recipient_user_id=" + recip+" ";
         if (filter != null && filter.size() > 0) {
 //            for(Map.Entry<String, String> entry:filter.entrySet()){
 //                q +=entry.getKey()+"="
@@ -129,6 +129,17 @@ public class UserDaoImpl implements UserDao {
         BigInteger count = (BigInteger) query.getSingleResult();
         Integer grandChildCount = ((BigInteger) count).intValue();
         return grandChildCount;
+    }
+
+    public List<CommonMessage> getMessage(int threadId) {
+        
+         String q = "SELECT * FROM common_message c where message_thread_id=" + threadId;
+      
+        javax.persistence.Query query = em.createNativeQuery(q, (Class) CommonMessage.class);
+        List<CommonMessage> messages = query.getResultList();
+
+        return messages;
+        
     }
 
 }
